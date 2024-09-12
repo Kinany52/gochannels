@@ -4,9 +4,15 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"runtime"
 )
 
 func main() {
+	fmt.Println("Number of CPUs:", runtime.NumCPU()) //This will print the number of CPU cores available on your system.
+	fmt.Println("GOMAXPROCS", runtime.GOMAXPROCS(0)) //This will print the current GOMAXPROCS value, which is the number of CPU cores Go is currently using.
+	//The value won't be set to 0; it will simply return the number of OS threads Go is currently using (which, by default, is set to the number of available CPU cores). If you want to change it, you need to pass a non-zero value to GOMAXPROCS.
+	return
+
 	links := []string{
 		"http://google.com",
 		"https://microsoft.com",
