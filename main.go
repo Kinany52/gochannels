@@ -22,9 +22,9 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	//bad infinite loop
-	for {
-		go checkLink(<-c, c)
+	//wait for the channel to return some value. After the channel has returned some value, assign it to l (short for link)
+	for l := range c {
+		go checkLink(l, c)
 	}
 
 	//fmt.Println("Number of CPUs:", runtime.NumCPU()) //This will print the number of CPU cores available on your system
