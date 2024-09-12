@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -22,13 +23,15 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	//wait for the channel to return some value. After the channel has returned some value, assign it to l (short for link)
 	for l := range c {
-		go checkLink(l, c)
+		go func(link string) {
+			time.Sleep(5 * time.Second)
+			checkLink(link, c)
+		}(l)
 	}
 
-	//fmt.Println("Number of CPUs:", runtime.NumCPU()) //This will print the number of CPU cores available on your system
-	//fmt.Println("GOMAXPROCS", runtime.GOMAXPROCS(0)) //This will print the current GOMAXPROCS value
+	//fmt.Println("Number of CPUs:", runtime.NumCPU())
+	//fmt.Println("GOMAXPROCS", runtime.GOMAXPROCS(0)
 }
 
 func checkLink(link string, c chan string) {
