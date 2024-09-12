@@ -1,0 +1,1 @@
+Go-based application to performs health checks on a list of URLs concurrently. It launches a goroutine for each URL to send an HTTP GET request and reports if the URL might be down. After reporting, it waits 5 seconds before rechecking the URL, effectively creating a periodic health check loop.
