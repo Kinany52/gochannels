@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -18,11 +19,24 @@ func main() {
 	}
 
 	c := make(chan string)
+	var wg sync.WaitGroup
 
+	// Start goroutines to check each link
 	for _, link := range links {
-		go checkLink(link, c)
+		wg.Add(1) // Increment the counter for each goroutine
+		go func(link string) {
+			defer wg.Done() // Decrement the counter when the goroutine completes
+			checkLink(link, c)
+		}(link)
 	}
 
+	// Start a goroutine to close the channel after all links are processed
+	go func() {
+		wg.Wait() // Wait for all goroutines to finish
+		close(c)  // Close the channel after all goroutines have finished
+	}()
+
+	// Process results
 	for l := range c {
 		go func(link string) {
 			time.Sleep(5 * time.Second)
