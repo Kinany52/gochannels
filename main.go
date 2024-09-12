@@ -22,11 +22,9 @@ func main() {
 		go checkLink(link, c)
 	}
 
-	fmt.Println(<-c)
-	fmt.Println(<-c)
-	fmt.Println(<-c)
-	fmt.Println(<-c)
-	fmt.Println(<-c)
+	for i := 0; i < len(links); i++ {
+		fmt.Println(<-c)
+	}
 
 	//fmt.Println("Number of CPUs:", runtime.NumCPU()) //This will print the number of CPU cores available on your system
 	//fmt.Println("GOMAXPROCS", runtime.GOMAXPROCS(0)) //This will print the current GOMAXPROCS value
